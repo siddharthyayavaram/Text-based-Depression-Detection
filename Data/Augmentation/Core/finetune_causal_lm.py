@@ -22,7 +22,7 @@ df = pd.read_json("TRAIN_DATA.json")
 ds = Dataset.from_pandas(df)
 
 tokenizer = AutoTokenizer.from_pretrained(
-    "BASE_MODEL_NAME",
+    "meta-llama/Meta-Llama-3.1-8B-Instruct",
     use_fast=False,
     trust_remote_code=True
 )
@@ -55,7 +55,7 @@ def process_func(example):
 tokenized_id = ds.map(process_func, remove_columns=ds.column_names)
 
 model = AutoModelForCausalLM.from_pretrained(
-    "BASE_MODEL_NAME",
+    "meta-llama/Meta-Llama-3.1-8B-Instruct",
     device_map="auto",
     torch_dtype=torch.bfloat16,
 )
