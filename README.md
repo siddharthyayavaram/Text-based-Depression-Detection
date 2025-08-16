@@ -10,30 +10,30 @@ The primary dataset used is the DAIC-WOZ. It contains semi-structured clinical i
 
 ### 1. Preprocess & Analyze Data
 
-* **Transcript Preprocess**
+* **Transcript Preprocess** – located in `Data/Transcript Preprocess/`
 
   * `interview_transcript_filter.py` – filters transcripts, removes irrelevant responses
   * `transcript_question_tagger.py` – tags responses with matched interview questions
   * `questions.csv` – predefined set of interview questions
-* **Analysis**
+
+* **Analysis** – located in `Data/Analysis/`
 
   * `DAIC-WOZ-analysis.ipynb` – notebook with data exploration and PHQ-8 score visualization
+
 ---
 
 ### 2. Augment Data
 
-#### Core (model-based)
+* **Core (model-based)** – located in `Data/Augmentation/Core/`
 
-Scripts for paraphrasing and generating new dialogue data:
+  * `augment_bert_pretrained.py`, `augment_bert_finetuned.py` – augment text using BERT (general vs. fine-tuned)
+  * `augment_llama3.py`, `paraphrase_dialogues_llama.py` – LLaMA-based augmentation
+  * `augment_parrot.py` – Parrot T5 paraphrasing
+  * `finetune_causal_lm.py`, `generate_dialogues_from_finetuned_model.py` – fine-tune/generate synthetic dialogues
 
-* `augment_bert_pretrained.py`, `augment_bert_finetuned.py` – augment text using BERT (general vs. fine-tuned)
-* `augment_llama3.py`, `paraphrase_dialogues_llama.py` – LLaMA-based augmentation
-* `augment_parrot.py` – Parrot T5 paraphrasing
-* `finetune_causal_lm.py`, `generate_dialogues_from_finetuned_model.py` – fine-tune/generate synthetic dialogues
+* **EDA (rule-based)** – located in `Data/Augmentation/EDA/`
 
-#### EDA (rule-based)
-
-* `eda_library.py`, `augment_dialogues_eda.py` – synonym replacement, random insertion/deletion, etc.
+  * `eda_library.py`, `augment_dialogues_eda.py` – synonym replacement, random insertion/deletion, etc.
 
 ---
 
