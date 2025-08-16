@@ -11,7 +11,7 @@ def extract_phq8_scores(text):
     total_score = 0
     remaining_text = text
     
-    for _ in range(8):  # PHQ-8 has 8 questions
+    for _ in range(8):
         score_index = remaining_text.find('Score:')
         if score_index == -1:
             break
@@ -74,7 +74,6 @@ def compute_averaged_metrics(reports):
     return metrics
 
 def main():
-    # Configuration
     csv_path = 'NTU_datasets/dev_split_Depression_AVEC2017.csv'
     experiment_name = 'tan_train_tan_dev'
     seeds = [40, 41, 42, 43, 44]
