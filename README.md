@@ -1,6 +1,6 @@
 # Text-based Depression Detection
 
-This project focuses on detecting signs of depression from text dialogues using large language models (LLMs) such as BERT and LLaMA. The pipeline includes transcript preprocessing, data augmentation, model fine-tuning, and evaluation across multiple clinical tasks.
+This project focuses on detecting signs of depression from text dialogues using large language models (LLMs). The pipeline includes transcript preprocessing, data augmentation, model fine-tuning, and evaluation across multiple clinical tasks.
 
 The primary dataset used is the DAIC-WOZ. It contains semi-structured clinical interviews where participants interact with “Ellie”, a virtual interviewer designed to simulate a therapist. The dataset includes both patient responses and Ellie’s scripted questions, along with clinical labels such as PHQ-8 depression scores.
 
@@ -39,7 +39,7 @@ The primary dataset used is the DAIC-WOZ. It contains semi-structured clinical i
 
 ### 3. Train Models
 
-Located in `Src/Train/` — these scripts accept command-line arguments.
+Located in `Src/Train/`
 
 * **Binary classification** → `train_binary.py`
 * **Multiclass severity (4-class)** → `train_multiclass.py`
@@ -55,7 +55,7 @@ python Src/Train/train_binary.py --train_file clean_train.json --epochs 5
 
 ### 4. Run Inference
 
-Located in `Src/Test/` — all take command-line arguments.
+Located in `Src/Test/`
 
 * **Binary:** `test_binary.py`
 * **Multiclass:** `test_multiclass.py`
