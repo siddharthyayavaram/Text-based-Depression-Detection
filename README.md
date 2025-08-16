@@ -1,49 +1,74 @@
-# LLM-based Depression-Detection
+# Text-based Depression Detection
 
-# Data
+This project explores **depression detection from text** using transcript preprocessing, data augmentation, fine-tuning LLMs (BERT, LLaMA, etc.), and multiple evaluation strategies.
 
-## Augmentation
+---
 
-### Core Scripts
+## Workflow
 
-This directory contains scripts for data augmentation and generation using various language models.
+### 1. Preprocess & Analyze Data
 
-- **`augment_bert_pretrained.py`**: Augments text data by masking and filling with a pre-trained BERT model.
-- **`augment_bert_finetuned.py`**: Augments text data using a fine-tuned Deproberta model for more domain-specific paraphrasing.
-- **`augment_llama3.py`**: Paraphrases sentences in a dialogue using the Llama 3.1 model.
-- **`generate_dialogues_from_finetuned_model.py`**: Generates dialogues between a chatbot and a participant using a fine-tuned causal language model.
-- **`finetune_causal_lm.py`**: Fine-tunes a causal language model on a dialogue dataset using LoRA.
-- **`paraphrase_dialogues_llama.py`**: Paraphrases entire dialogues using the Llama 3 model to generate augmented data.
-- **`augment_parrot.py`**: Augments text data by paraphrasing sentences using the Parrot T5 model.
+* **Transcript Preprocess**
 
-### EDA Augmentation Scripts
+  * `interview_transcript_filter.py` – filters transcripts, removes irrelevant responses
+  * `transcript_question_tagger.py` – tags responses with matched interview questions
+  * `questions.csv` – predefined set of interview questions
+* **Analysis**
 
-This directory contains scripts for data augmentation using the Easy Data Augmentation (EDA) techniques.
+  * `DAIC-WOZ-analysis.ipynb` – notebook with data exploration and PHQ-8 score visualization
+---
 
-- **`eda_library.py`**: A library implementing Easy Data Augmentation (EDA) techniques for text.
-- **`augment_dialogues_eda.py`**: Augments dialogues from a JSON file using the EDA library.
+### 2. Augment Data
 
+#### Core (model-based)
 
-### Analysis
+Scripts for paraphrasing and generating new dialogue data:
 
-This directory contains a jupyter notebook for analyzing predicted and actual DAIC-WOz phq-8 scores and plots a few graphs
+* `augment_bert_pretrained.py`, `augment_bert_finetuned.py` – augment text using BERT (general vs. fine-tuned)
+* `augment_llama3.py`, `paraphrase_dialogues_llama.py` – LLaMA-based augmentation
+* `augment_parrot.py` – Parrot T5 paraphrasing
+* `finetune_causal_lm.py`, `generate_dialogues_from_finetuned_model.py` – fine-tune/generate synthetic dialogues
 
-### Transcript Preprocess
+#### EDA (rule-based)
 
-- **`interview_transcript_filter.py`** - Filters interview transcripts to remove Ellie's responses that don't match predefined questions using fuzzy string matching
-- **`transcript_question_tagger.py`** - Enhanced version that filters transcripts and tags matched questions, extracting content from parentheses and adding matched question metadata
-- **`questions.csv`** - Contains the predefined list of interview questions used for matching and filtering transcripts
+* `eda_library.py`, `augment_dialogues_eda.py` – synonym replacement, random insertion/deletion, etc.
 
-### Usage
+---
 
-Both scripts process interview transcripts by comparing Ellie's responses against a standard question set, filtering out responses below a similarity threshold (default 70%) and organizing the output for further analysis.
+### 3. Train Models
 
-## Eval
+Located in `Src/Train/` — these scripts accept command-line arguments.
 
-- **`binary_classification_eval.py`** - Evaluates binary depression classification results across multiple random seeds and computes averaged metrics
-- **`phq8_score_eval.py`** - Evaluates PHQ-8 score predictions by parsing individual question scores and converting to binary classification
-- **`comp_results.py`** - Comprehensive evaluation script that processes PHQ-8 predictions, handles JSON data, and provides detailed statistical analysis with standard deviations
+* **Binary classification** → `train_binary.py`
+* **Multiclass severity (4-class)** → `train_multiclass.py`
+* **PHQ-8 prediction** → `train_phq8_all.py`, `train_phq8_individual.py`
+* **BERT sentiment baseline** → `train_bert_sentiment.py`
 
-### Usage
+```bash
+# Example: Train binary classifier
+python Src/Train/train_binary.py --train_file clean_train.json --epochs 5
+```
 
-These evaluation scripts analyze model performance on depression classification tasks using different approaches (direct binary classification, PHQ-8 scoring, and comprehensive analysis with statistics).
+---
+
+### 4. Run Inference
+
+Located in `Src/Test/` — all take command-line arguments.
+
+* **Binary:** `test_binary.py`
+* **Multiclass:** `test_multiclass.py`
+* **PHQ-8 (all/individual):** `test_phq8_all.py`, `test_phq8_individual.py`
+
+```bash
+# Example: Run inference for binary classifier
+python Src/Test/test_binary.py --test_file clean_test.json
+```
+
+---
+
+### 5. Evaluate Results
+
+Located in `Eval/`.
+* `binary_classification_eval.py` – evaluates binary classification across seeds
+* `phq_score_eval.py` – evaluates PHQ-8 score predictions (individual + binary conversion)
+* `comp_results.py` – aggregates and compares results with detailed stats
