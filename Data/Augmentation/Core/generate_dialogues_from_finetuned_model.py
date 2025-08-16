@@ -5,7 +5,7 @@ from peft import PeftModel, LoraConfig, TaskType
 
 seed = 40
 model_name = f"MODEL_{seed}"
-base_model_path = "BASE_MODEL_NAME"
+base_model_path = "meta-llama/Meta-Llama-3.1-8B-Instruct"
 lora_path = f"./{model_name}"
 
 config = LoraConfig(
