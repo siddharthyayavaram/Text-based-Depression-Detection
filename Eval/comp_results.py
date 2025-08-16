@@ -18,7 +18,7 @@ def extract_phq8_scores(text):
     total_score = 0
     remaining_text = text
     
-    for _ in range(8):  # PHQ-8 has 8 questions
+    for _ in range(8):
         score_index = remaining_text.find('Score:')
         if score_index == -1:
             break
@@ -67,11 +67,9 @@ def compute_statistics(results):
     return average_metrics, std_metrics, average_scalar, std_scalar
 
 def main():
-    # Configuration
     seeds = [40, 41, 42, 43, 44]
     class_labels = {'0': 'Non depressed', '1': 'Depressed'}
     
-    # Initialize results storage
     results = []
     class_f1_scores = {label: 0 for label in class_labels.keys()}
     
