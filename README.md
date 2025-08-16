@@ -1,6 +1,8 @@
 # Text-based Depression Detection
 
-This project explores **depression detection from text** using transcript preprocessing, data augmentation, fine-tuning LLMs (BERT, LLaMA, etc.), and multiple evaluation strategies.
+This project focuses on detecting signs of depression from text dialogues using large language models (LLMs) such as BERT and LLaMA. The pipeline includes transcript preprocessing, data augmentation, model fine-tuning, and evaluation across multiple clinical tasks.
+
+The primary dataset used is the DAIC-WOZ. It contains semi-structured clinical interviews where participants interact with “Ellie”, a virtual interviewer designed to simulate a therapist. The dataset includes both patient responses and Ellie’s scripted questions, along with clinical labels such as PHQ-8 depression scores.
 
 ---
 
