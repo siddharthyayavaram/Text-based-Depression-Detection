@@ -57,9 +57,9 @@ def get_only_chars(line):
 # Replace n words in the sentence with synonyms from wordnet
 ########################################################################
 
-#for the first time you use wordnet
 #import nltk
 #nltk.download('wordnet')
+
 from nltk.corpus import wordnet 
 
 def synonym_replacement(words, n):
@@ -77,7 +77,6 @@ def synonym_replacement(words, n):
 		if num_replaced >= n: #only replace up to n words
 			break
 
-	#this is stupid but we need it, trust me
 	sentence = ' '.join(new_words)
 	new_words = sentence.split(' ')
 
@@ -101,7 +100,7 @@ def get_synonyms(word):
 
 def random_deletion(words, p):
 
-	#obviously, if there's only one word, don't delete it
+	#do not delete if there is only a single word
 	if len(words) == 1:
 		return words
 
@@ -112,7 +111,7 @@ def random_deletion(words, p):
 		if r > p:
 			new_words.append(word)
 
-	#if you end up deleting all words, just return a random word
+	#just return a random word if all other words are deleted
 	if len(new_words) == 0:
 		rand_int = random.randint(0, len(words)-1)
 		return [words[rand_int]]
@@ -210,7 +209,7 @@ def eda(sentence, alpha_sr=0.1, alpha_ri=0.1, alpha_rs=0.1, p_rd=0.1, num_aug=9)
 	augmented_sentences = [get_only_chars(sentence) for sentence in augmented_sentences]
 	shuffle(augmented_sentences)
 
-	#trim so that we have the desired number of augmented sentences
+	#trim to obtain desired number of augmented sentences
 	if num_aug >= 1:
 		augmented_sentences = augmented_sentences[:num_aug]
 	else:
